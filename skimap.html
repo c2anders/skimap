@@ -26,7 +26,6 @@
 
 
 	<script>
-	var x=document.getElementById("debug");
 	var watchID;
 	var map;
 	var currentPosition;
@@ -82,7 +81,7 @@
 		watchID = navigator.geolocation.watchPosition(showPosition,showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
 		map.setZoom(18);
 		}
-	  else{x.innerHTML="Geolocation is not supported by this browser.";}
+	  else{console.debug("Geolocation is not supported by this browser.");}
 	  
   }
 
@@ -116,16 +115,16 @@
 	  switch(error.code) 
 		{
 		case error.PERMISSION_DENIED:
-		  x.innerHTML="User denied the request for Geolocation."
+		  console.debug("User denied the request for Geolocation.");
 		  break;
 		case error.POSITION_UNAVAILABLE:
-		  x.innerHTML="Location information is unavailable."
+		  console.debug("Location information is unavailable.");
 		  break;
 		case error.TIMEOUT:
-		  x.innerHTML="The request to get user location timed out."
+		  console.debug("The request to get user location timed out.");
 		  break;
 		case error.UNKNOWN_ERROR:
-		  x.innerHTML="An unknown error occurred."
+		  console.debug("An unknown error occurred.");
 		  break;
 		}
 	  }
@@ -143,13 +142,12 @@
 <div style="height:20%; width:100%">
 
   <div>
-	<button style="float:left; width: 30%; height: 80px" onclick="getLocation()">Start Tracking</button>
-	<div style="float:left; width:40%; height: 80px">
+	<button style="float:left; width: 30%; height: 100%" onclick="getLocation()">Start Tracking</button>
+	<div style="float:left; width:40%; height: 100%"">
 		<p style="text-align:center" id="Lat">Lat:  </p>
 		<p style="text-align:center" id="Long">Long: </p>
 	</div>
-	<button style="float:right; width: 30%; height: 80px" onclick="stopWatching()">Stop</button>
-	<textarea id="debug" width="100%" cols="50">Click the button to get your position...</textarea>
+	<button style="float:right; width: 20%; height: 100%"" onclick="stopWatching()">Stop</button>
   </div>
 </div>
 
