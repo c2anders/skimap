@@ -42,6 +42,7 @@
 	var Results = StackMob.Collection.extend({ model: Result });
 	var smQuery = new StackMob.Collection.Query();
 	var results = new Results();
+	var markers = new Array();
 	
 	function clock()
 	{
@@ -78,6 +79,7 @@
 	  {
 	  if (navigator.geolocation)
 		{
+		console.debug("Geolocation supported...");
 		watchID = navigator.geolocation.watchPosition(showPosition,showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
 		map.setZoom(18);
 		}
@@ -142,12 +144,12 @@
 <div style="height:20%; width:100%">
 
   <div>
-	<button style="float:left; width: 30%; height: 100%" onclick="getLocation()">Start Tracking</button>
-	<div style="float:left; width:40%; height: 100%"">
+	<button style="float:left; width: 30%; height: 80px" onclick="getLocation()">Start Tracking</button>
+	<div style="float:left; width:40%; height: 80px"">
 		<p style="text-align:center" id="Lat">Lat:  </p>
 		<p style="text-align:center" id="Long">Long: </p>
 	</div>
-	<button style="float:right; width: 20%; height: 100%"" onclick="stopWatching()">Stop</button>
+	<button style="float:right; width: 20%; height: 80px"" onclick="stopWatching()">Stop</button>
   </div>
 </div>
 
