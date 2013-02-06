@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0; padding: 0 }
+  #button_large {height: 100; width: 100}
+  #map_canvas { height: 100% }
+</style>
+
+<html>
+<head>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://static.stackmob.com/js/stackmob-js-0.7.0-bundled-min.js"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+	<script type="text/javascript">
+	StackMob.init({
+		appName: "ski_map",
+		clientSubdomain: "christophandersongmailcom",
+		publicKey: "afd9bc44-1f38-4bb4-ae63-72b39d0abd21",
+		apiVersion: 0
+	});
+	</script>
+
+
+
+
+	<script>
+	var x=document.getElementById("debug");
+	var watchID;
+	var map;
+	var currentPosition;
+	var currentLat;
+	var currentLong;
+	var currentLatLong;
+	var currentPositionMarker;
+	var currentPositionCircle;
+
+    //Creating a user, but this time with a callback.
+    var user = new StackMob.User({ username: 'Bill Watterson', password: 'weirdosfromanotherplanet', profession: 'cartoonist'  });
+    user.create({
+	//After StackMob successfully saves "Bill Watterson", print out the result
+	success: function(model) {
+	  //Print out "Bill Watterson: cartoonist"
+	  console.debug(model.get('username') + ': ' + model.get('profession'));
+	},
+	error: function(model, response) {console.debug("curses! we have failed, Hobbes!");
+	   }
+  });
+
+	
+
+	var mapOptions = {
+	  center: new google.maps.LatLng(49,-123),
+	  zoom: 8,
+	  mapTypeId: google.maps.MapTypeId.ROADMAP
+	}
+
+
+	function initialize()
+	{
+		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+	}
+
+
+	function getLocation()
+	  {
+	  if (navigator.geolocation)
+		{
+		watchID = navigator.geolocation.watchPosition(showPosition,showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
+		map.setZoom(18);
+		}
+	  else{x.innerHTML="Geolocation is not supported by this browser.";}
+	  
+  }
+
+	function showPosition(position)
+	  {
+	  /*var latlon=position.coords.latitude+","+position.coords.longitude;
+	  
+
+	  var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
+	  +latlon+"&zoom=14&size=400x300&sensor=false";
+	  document.getElementById("map_canvas").innerHTML="<img src='"+img_url+"'>";*/
+	  
+	  
+	  currentPosition = position;
+	  currentLat = position.coords.latitude;
+	  currentLong = position.coords.longitude;
+	  currentLatLong = new google.maps.LatLng(currentLat, currentLong);
+	  document.getElementById("Lat").textContent = "Lat:  " + currentLat;
+	  document.getElementById("Long").textContent = "Long: " + currentLong;
+	  
+	  currentPositionMarker = new google.maps.Marker({position: currentLatLong, map: map});
+	  map.setCenter(currentLatLong);
+
+	  
+	  }
+	  
+	  function stopWatching()
+	  {
+		navigator.geolocation.clearWatch(watchID);
+	  }
+
+	function showError(error)
+	  {
+	  switch(error.code) 
+		{
+		case error.PERMISSION_DENIED:
+		  x.innerHTML="User denied the request for Geolocation."
+		  break;
+		case error.POSITION_UNAVAILABLE:
+		  x.innerHTML="Location information is unavailable."
+		  break;
+		case error.TIMEOUT:
+		  x.innerHTML="The request to get user location timed out."
+		  break;
+		case error.UNKNOWN_ERROR:
+		  x.innerHTML="An unknown error occurred."
+		  break;
+		}
+	  }
+	</script>
+</head>
+
+
+
+
+
+<body onload="initialize()">
+
+
+
+<div style="height:20%; width:100%">
+
+  <div>
+	<button style="float:left; width: 30%; height: 80px" onclick="getLocation()">Start Tracking</button>
+	<div style="float:left; width:40%; height: 80px">
+		<p style="text-align:center" id="Lat">Lat:  </p>
+		<p style="text-align:center" id="Long">Long: </p>
+	</div>
+	<button style="float:right; width: 30%; height: 80px" onclick="stopWatching()">Stop</button>
+	<textarea id="debug" width="100%" cols="50">Click the button to get your position...</textarea>
+  </div>
+</div>
+
+<div id="map_canvas" style="width: 100%; height: 80%"></div>
+
+</body>
+</html>
+
+
+
+
