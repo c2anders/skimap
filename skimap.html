@@ -24,6 +24,7 @@
 
 
 
+
 	<script>
 	var x=document.getElementById("debug");
 	var watchID;
@@ -31,24 +32,35 @@
 	var currentPosition;
 	var currentLat;
 	var currentLong;
-	var currentLatLong;
+	var currentLatLong = new google.maps.LatLng(0,0);
 	var currentPositionMarker;
 	var currentPositionCircle;
-
-    //Creating a user, but this time with a callback.
-    var user = new StackMob.User({ username: 'Bill Watterson', password: 'weirdosfromanotherplanet', profession: 'cartoonist'  });
-    user.create({
-	//After StackMob successfully saves "Bill Watterson", print out the result
-	success: function(model) {
-	  //Print out "Bill Watterson: cartoonist"
-	  console.debug(model.get('username') + ': ' + model.get('profession'));
-	},
-	error: function(model, response) {console.debug("curses! we have failed, Hobbes!");
-	   }
-  });
-
+	var user = new StackMob.User({ username: 'xtoph' });
+	var handleTimedEvent = self.setInterval(function(){clock()},10000);
 	
+	//Define classes for user query results
+	var Result = StackMob.Model.extend({ schemaName: 'user' });
+	var Results = StackMob.Collection.extend({ model: Result });
+	var smQuery = new StackMob.Collection.Query();
+	var results = new Results();
+	
+	function clock()
+	{
+		results.query(smQuery);
+		console.debug(results.toJSON());
+		for(i=0;i<results.length;i++)
+		{
+			place_marker(results.models[i]);
+		}
+	}	
+	function place_marker(individual)
+	{
+		var placed_LatLng = new google.maps.LatLng(individual.get('Lat'), individual.get('Long'));
+		var placed_marker = new google.maps.Marker({position: placed_LatLng, map: map});
+	}
 
+	user.fetch();
+	
 	var mapOptions = {
 	  center: new google.maps.LatLng(49,-123),
 	  zoom: 8,
@@ -59,6 +71,7 @@
 	function initialize()
 	{
 		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+		currentPositionMarker = new google.maps.Marker({position: currentLatLong, map: map});
 	}
 
 
@@ -75,22 +88,19 @@
 
 	function showPosition(position)
 	  {
-	  /*var latlon=position.coords.latitude+","+position.coords.longitude;
-	  
-
-	  var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
-	  +latlon+"&zoom=14&size=400x300&sensor=false";
-	  document.getElementById("map_canvas").innerHTML="<img src='"+img_url+"'>";*/
-	  
-	  
+  	  
 	  currentPosition = position;
 	  currentLat = position.coords.latitude;
 	  currentLong = position.coords.longitude;
+	  user.set({ Lat:currentLat, Long: currentLong });
+	  user.save();
+	  
+	  
 	  currentLatLong = new google.maps.LatLng(currentLat, currentLong);
 	  document.getElementById("Lat").textContent = "Lat:  " + currentLat;
 	  document.getElementById("Long").textContent = "Long: " + currentLong;
 	  
-	  currentPositionMarker = new google.maps.Marker({position: currentLatLong, map: map});
+	  currentPositionMarker.setPosition(currentLatLong);
 	  map.setCenter(currentLatLong);
 
 	  
