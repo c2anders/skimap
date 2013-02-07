@@ -89,12 +89,14 @@
 		}
 	  else{console.debug("Geolocation is not supported by this browser.");}
 	  
+	  console.debug("Starting 10 second timed event...");
 	  handleTimedEvent = self.setInterval(function(){clock()},10000);
 	 }
 
 	
 	function clock()
 	{
+		console.debug("Submitting database query...");
 		results.query(smQuery, {success: ProcessResults, error: function(reporterror){console.debug("Error querying database!");}} );
 		
 	}	
@@ -104,17 +106,21 @@
 		console.debug("Processing results...");
 		console.debug(results.toJSON());
 		
-		for(i=0;i<results.length;i++)
+		for(var i=0;i<results.length;i++)
 		{
-			place_marker(results.models[i]);
+			place_marker(i, results.models[i]);
 		}
 	}
 	
 	
-	function place_marker(individual)
+	function place_marker(i, individual)
 	{
 		var placed_LatLng = new google.maps.LatLng(individual.get('Lat'), individual.get('Long'));
-		var placed_marker = new google.maps.Marker({position: placed_LatLng, map: map});
+		if(!markers[i]) 
+			{markers[i] = new google.maps.Marker({position: placed_LatLng, map: map});}
+		else
+			{markers[i].setPosition(placed_LatLng);}
+		
 	}
 	
 
