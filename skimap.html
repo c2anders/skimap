@@ -76,7 +76,6 @@
 		}
 		
 		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-		currentPositionMarker = new google.maps.Marker({position: currentLatLong, map: map});
 	}
 
 	function StartTracking()
@@ -112,6 +111,8 @@
 		for(var i=0;i<results.length;i++)
 		{
 			place_marker(i, results.models[i]);
+			if(results.models[i].get('username') = sessionID)
+				{currentPositionMarker = markers[i];}
 		}
 	}
 	
@@ -145,7 +146,8 @@
 	  document.getElementById("Lat").textContent = "Lat:  " + currentLat;
 	  document.getElementById("Long").textContent = "Long: " + currentLong;
 	  
-	  currentPositionMarker.setPosition(currentLatLong);
+	  if (currentPositionMarker)
+		{currentPositionMarker.setPosition(currentLatLong);}
 	  map.setCenter(currentLatLong);
 
 	  
