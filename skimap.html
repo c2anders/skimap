@@ -35,8 +35,9 @@
 	var currentPositionMarker;
 	var currentPositionCircle;
 	var user;
-	var handleTimedEvent = self.setInterval(function(){clock()},10000);
+	var handleTimedEvent;
 	var sessionID;
+	var mapOptions;
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -65,7 +66,14 @@
 			error: function(model, response) 
 				{ console.debug("Unable to create user '" + sessionID + "'. Probably because it already exists?"); }
 		});
+		
+		//user.fetch();
 
+		mapOptions = {
+			center: new google.maps.LatLng(49,-123),
+			zoom: 8,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		}
 		
 		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 		currentPositionMarker = new google.maps.Marker({position: currentLatLong, map: map});
@@ -80,6 +88,8 @@
 		map.setZoom(18);
 		}
 	  else{console.debug("Geolocation is not supported by this browser.");}
+	  
+	  handleTimedEvent = self.setInterval(function(){clock()},10000);
 	 }
 
 	
@@ -99,14 +109,8 @@
 		var placed_LatLng = new google.maps.LatLng(individual.get('Lat'), individual.get('Long'));
 		var placed_marker = new google.maps.Marker({position: placed_LatLng, map: map});
 	}
-
-	user.fetch();
 	
-	var mapOptions = {
-	  center: new google.maps.LatLng(49,-123),
-	  zoom: 8,
-	  mapTypeId: google.maps.MapTypeId.ROADMAP
-	}
+
 
 
 
@@ -134,6 +138,7 @@
 	  function stopWatching()
 	  {
 		navigator.geolocation.clearWatch(watchID);
+		self.clearInterval(handleTimedEvent);
 	  }
 
 	function showError(error)
