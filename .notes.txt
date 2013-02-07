@@ -1,0 +1,52 @@
+results
+f
+_byCid: Object
+_byId: Object
+length: 5
+models: Array[5]
+schemaName: "user"
+__proto__: t
+Submitting database query... skimap.html:99
+Processing results... skimap.html:106
+[Object, Object, Object, Object, Object]
+ skimap.html:107
+results.models[0]
+f
+_callbacks: Object
+_escapedAttributes: Object
+_pending: Object
+_previousAttributes: Object
+_silent: Object
+attributes: Object
+Lat: 49.2788496
+Long: -123.1359814
+createddate: 1360223036172
+lastmoddate: 1360223042596
+sm_owner: "user/95742"
+username: "95742"
+__proto__: Object
+changed: Object
+cid: "c17"
+collection: f
+idAttribute: "user_id"
+__proto__: t
+x = results.models[0]
+f
+y = x.attributes.lastmoddate
+1360223042596
+d = new Date()
+Thu Feb 07 2013 07:15:16 GMT-0800 (Pacific Standard Time)
+d
+Thu Feb 07 2013 07:15:16 GMT-0800 (Pacific Standard Time)
+d - y
+27073813
+
+
+
+
+
+
+
+
+var q = new StackMob.Collection.Query();
+q.mustBeNear('location', new StackMob.GeoPoint(37.77493,-122.419416), 1);
