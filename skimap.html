@@ -62,7 +62,7 @@
 		user.create
 		({
 			success: function(model) 
-				{console.debug(model.get('username') + ': ' + model.get('profession'));},
+				{console.debug("Created record with username: " + sessionID);},
 			error: function(model, response) 
 				{ console.debug("Unable to create user '" + sessionID + "'. Probably because it already exists?"); }
 		});
@@ -95,13 +95,20 @@
 	
 	function clock()
 	{
-		results.query(smQuery);
-		console.debug(results.toJSON());
+		results.query(smQuery, { success: function(ProcessResults) });
+		
+	}	
+	
+	function ProcessResults()
+	{
+		console.debug("Processing results...");
+		console.debug(todos.toJSON());
+		
 		for(i=0;i<results.length;i++)
 		{
 			place_marker(results.models[i]);
 		}
-	}	
+	}
 	
 	
 	function place_marker(individual)
