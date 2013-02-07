@@ -44,6 +44,17 @@
 	var results = new Results();
 	var markers = new Array();
 	
+		document.getElementById("map_canvas").style.height=(window.innerHeight-80)+'px';
+
+		function initialize()
+	{
+		var temprandom = Math.floor(Math.random()*100000);
+		temprandom.toString();
+		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+		currentPositionMarker = new google.maps.Marker({position: currentLatLong, map: map});
+	}
+
+	
 	function clock()
 	{
 		results.query(smQuery);
@@ -53,6 +64,8 @@
 			place_marker(results.models[i]);
 		}
 	}	
+	
+	
 	function place_marker(individual)
 	{
 		var placed_LatLng = new google.maps.LatLng(individual.get('Lat'), individual.get('Long'));
@@ -67,13 +80,6 @@
 	  mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
 
-
-	function initialize()
-	{
-		document.getElementById("map_canvas").style.height=(window.innerHeight-80)+'px';
-		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-		currentPositionMarker = new google.maps.Marker({position: currentLatLong, map: map});
-	}
 
 
 	function getLocation()
