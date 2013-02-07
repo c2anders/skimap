@@ -95,14 +95,14 @@
 	
 	function clock()
 	{
-		results.query(smQuery, ProcessResults );
+		results.query(smQuery, {success: ProcessResults, error: function(reporterror){console.debug("Error querying database!");}} );
 		
 	}	
 	
 	function ProcessResults()
 	{
 		console.debug("Processing results...");
-		console.debug(todos.toJSON());
+		console.debug(results.toJSON());
 		
 		for(i=0;i<results.length;i++)
 		{
