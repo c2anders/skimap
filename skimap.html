@@ -90,6 +90,7 @@
 	  
 	  console.debug("Starting 10 second timed event...");
 	  handleTimedEvent = self.setInterval(function(){clock()},10000);
+	  clock();
 	 }
 
 	
@@ -111,7 +112,7 @@
 		for(var i=0;i<results.length;i++)
 		{
 			place_marker(i, results.models[i]);
-			if(results.models[i].get('username') = sessionID)
+			if(results.models[i].get('username') == sessionID)
 				{currentPositionMarker = markers[i];}
 		}
 	}
