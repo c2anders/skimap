@@ -34,8 +34,9 @@
 	var currentLatLong = new google.maps.LatLng(0,0);
 	var currentPositionMarker;
 	var currentPositionCircle;
-	var user = new StackMob.User({ username: 'xtoph' });
+	var user;
 	var handleTimedEvent = self.setInterval(function(){clock()},10000);
+	var sessionID;
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -44,15 +45,42 @@
 	var results = new Results();
 	var markers = new Array();
 	
-		document.getElementById("map_canvas").style.height=(window.innerHeight-80)+'px';
-
-		function initialize()
+	//Initialize script at onload event
+	function initialize()
 	{
+		//Adjust map html div to fill the page
+		document.getElementById("map_canvas").style.height=(window.innerHeight-80)+'px';
+		
+		//Create a random session identifier
 		var temprandom = Math.floor(Math.random()*100000);
-		temprandom.toString();
+		sessionID = temprandom.toString();
+		console.debug('sessionID: ' + sessionID);
+		
+		//Create a StackMob user with the sessionID
+		user = new StackMob.User({ username: sessionID });
+		user.create
+		({
+			success: function(model) 
+				{console.debug(model.get('username') + ': ' + model.get('profession'));},
+			error: function(model, response) 
+				{ console.debug("Unable to create user '" + sessionID + "'. Probably because it already exists?"); }
+		});
+
+		
 		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 		currentPositionMarker = new google.maps.Marker({position: currentLatLong, map: map});
 	}
+
+	function StartTracking()
+	 {
+	  if (navigator.geolocation)
+		{
+		console.debug("Geolocation supported...");
+		watchID = navigator.geolocation.watchPosition(showPosition,showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
+		map.setZoom(18);
+		}
+	  else{console.debug("Geolocation is not supported by this browser.");}
+	 }
 
 	
 	function clock()
@@ -82,17 +110,6 @@
 
 
 
-	function getLocation()
-	  {
-	  if (navigator.geolocation)
-		{
-		console.debug("Geolocation supported...");
-		watchID = navigator.geolocation.watchPosition(showPosition,showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
-		map.setZoom(18);
-		}
-	  else{console.debug("Geolocation is not supported by this browser.");}
-	  
-  }
 
 	function showPosition(position)
 	  {
@@ -146,12 +163,9 @@
 
 <body onload="initialize()">
 
-
-
 <div style="height:80px; width:100%">
-
   <div>
-	<button style="float:left; width: 30%; height: 80px" onclick="getLocation()">Start Tracking</button>
+	<button style="float:left; width: 30%; height: 80px" onclick="StartTracking()">Start Tracking</button>
 	<div style="float:left; width:40%; height: 80px"">
 		<p style="text-align:center" id="Lat">Lat:  </p>
 		<p style="text-align:center" id="Long">Long: </p>
