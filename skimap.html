@@ -103,7 +103,10 @@
 	{
 
 		if(nearbySwitch)
-			{smQuery.isWithinKm('location', currentGeopoint, 0.5);}
+			{smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems).mustBeNearKm('location', new StackMob.GeoPoint(currentLat, currentLong), 1);}
+		else
+			{smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems);}
+
 		results.query(smQuery, {success: ProcessResults, error: function(reporterror){console.debug("Error querying database!");}} );
 		
 	}	
@@ -202,15 +205,7 @@
 	{
 		nearbySwitch = !nearbySwitch;
 		console.debug("Flag to only show nearby users: " + nearbySwitch);
-		if(nearbySwitch)
-		{
-			smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems).mustBeNearKm('location', new StackMob.GeoPoint(currentLat, currentLong), 1);
-			map.setZoom(15);
-		}
-		else
-		{
-			smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems);
-		}
+		if(nearbySwitch) { map.setZoom(15); }
 	}
 	</script>
 </head>
