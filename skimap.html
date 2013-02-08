@@ -204,7 +204,7 @@
 		console.debug("Flag to only show nearby users: " + nearbySwitch);
 		if(nearbySwitch)
 		{
-			smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems).mustBeNearKm('location', currentGeopoint, 1);
+			smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems).mustBeNearKm('location', new StackMob.GeoPoint(currentLat, currentLong), 1);
 			map.setZoom(15);
 		}
 		else
