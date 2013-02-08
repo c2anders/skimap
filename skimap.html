@@ -40,6 +40,7 @@
 	var mapOptions;
 	var followSwitch = true;
 	var nearbySwitch = false;
+	var timerangems = 3600000;
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -84,17 +85,15 @@
 		{
 			console.debug("Geolocation supported...");
 			watchID = navigator.geolocation.watchPosition(showPosition,showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
-			map.setZoom(18);
+			map.setZoom(17);
 		}
 		else{console.debug("Geolocation is not supported by this browser.");}
 	  
 		console.debug("Starting 10 second timed event...");
 		handleTimedEvent = self.setInterval(function(){clock()},10000);
 
-		var timecutoff = new Date();
-		timecutoff = timecutoff - 3600000;
 		console.debug("Submitting database query...");
-		smQuery = new StackMob.Collection.Query().gt('lastmoddate', timecutoff);
+		smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems);
 
 		clock();
 	}
@@ -205,12 +204,12 @@
 		console.debug("Flag to only show nearby users: " + nearbySwitch);
 		if(nearbySwitch)
 		{
-			smQuery = new StackMob.Collection.Query().gt('lastmoddate', timecutoff).mustBeNearKm('location', currentGeopoint, 1);
+			smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems).mustBeNearKm('location', currentGeopoint, 1);
 			map.setZoom(15);
 		}
 		else
 		{
-			smQuery = new StackMob.Collection.Query().gt('lastmoddate', timecutoff);
+			smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems);
 		}
 	}
 	</script>
