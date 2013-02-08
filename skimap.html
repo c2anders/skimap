@@ -51,7 +51,7 @@
 	function initialize()
 	{
 		//Adjust map html div to fill the page
-		document.getElementById("map_canvas").style.height=(window.innerHeight-120)+'px';
+		document.getElementById("map_canvas").style.height=("80%");
 		
 		//Create a random session identifier
 		var temprandom = Math.floor(Math.random()*100000);
@@ -67,8 +67,6 @@
 			error: function(model, response) 
 				{ console.debug("Unable to create user '" + sessionID + "'. Probably because it already exists?"); }
 		});
-		
-		//user.fetch();
 
 		mapOptions = {
 			center: new google.maps.LatLng(49,-123),
@@ -184,6 +182,8 @@
 	 function toggleFollow()
 	 {
 		followSwitch = !followSwitch;
+		if(followSwitch && currentLatLong)
+			{map.setCenter(currentLatLong);}
 	 }
 	</script>
 </head>
@@ -198,7 +198,7 @@ button
 {
 	float:left;
 	width:25%;
-	height:60px;
+	height:50%;
 	font-family:"Arial";
 	text-align:center;
 	font-size:14px;
@@ -207,24 +207,26 @@ p
 {
 	font-family:"Arial";
 	text-align:center;
-	line-height:0.1em;
-	font-size:14px;
+	line-height:0em;
+	font-size:12pt;
 	padding:0px;
 }
 </style>
-<div style="height:120px; width:100%">
-  <div>
+<div style="height:20%; width:100%">
 	<button onclick = "StartTracking()">Start<br>Tracking</button>
-	<div style="float:left; width:50%; height: 60px"">
+		<div style="float:left; height: 50%; width: 25%;"">
 		<p id="User">User: </p>
+	</div>
+	<div style="float:left; height: 50%; width: 25%;"">
 		<p id="Lat">Lat:  </p>
 		<p id="Long">Long: </p>
 	</div>
+
 	<button onclick = "stopWatching()">Stop<br>Tracking</button>
 	<button onclick = "toggleFollow()">Follow Me<br>On/Off</button>
-	<button>X</button>
-	<button>X</button>
-	<button>X</button>
+	<button onclick = "toggleFollow()">-</button>
+	<button onclick = "toggleFollow()">-</button>
+	<button onclick = "toggleFollow()">-</button>
   </div>
 </div>
 
