@@ -130,7 +130,10 @@
 		if(!markers[i]) 
 			{markers[i] = new google.maps.Marker({position: placed_LatLng, map: map});}
 		else
-			{markers[i].setPosition(placed_LatLng);}		
+		{
+			markers[i].setPosition(placed_LatLng);
+			markers[i].setMap(map);
+		}		
 	}
 	
 	function showPosition(position)
