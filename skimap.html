@@ -78,26 +78,29 @@
 		else{console.debug("Geolocation is not supported by this browser.");}
 	  
 		console.debug("Starting 10 second timed event...");
-		handleTimedEvent = self.setInterval(function(){clock()},10000);
+		handleTimedEvent = self.setInterval(function(){TimedEvent()},10000);
 
 		console.debug("Submitting database query...");
 		smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems);
 
-		clock();
+		UpdateMap();
 	}
 
 	
-	function clock()
+	function TimedEvent()
 	{
-
+		UpdateMap();		
+	}	
+	
+	function UpdateMap()
+	{
 		if(nearbySwitch)
 			{smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems).mustBeNearKm('location', new StackMob.GeoPoint(currentLat, currentLong), 1);}
 		else
 			{smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems);}
 
 		results.query(smQuery, {success: ProcessResults, error: function(reporterror){console.debug("Error querying database!");}} );
-		
-	}	
+	}
 	
 	function ProcessResults()
 	{
@@ -119,8 +122,7 @@
 		if(!markers[i]) 
 			{markers[i] = new google.maps.Marker({position: placed_LatLng, map: map});}
 		else
-			{markers[i].setPosition(placed_LatLng);}
-		
+			{markers[i].setPosition(placed_LatLng);}		
 	}
 	
 	function showPosition(position)
@@ -147,8 +149,6 @@
 		{currentPositionMarker.setPosition(currentLatLong);}
 	if (followSwitch)
 		{map.setCenter(currentLatLong);}
-
-	  
 	}
 	  
 	function stopWatching()
@@ -178,21 +178,31 @@
 	 
 	function toggleFollow()
 	{
-		followSwitch = !followSwitch
+		followSwitch = !followSwitch;
 		console.debug("Flag to recenter the map: " + followSwitch);
 		if(followSwitch && currentLatLong)
 			{map.setCenter(currentLatLong);}
+		
+		UpdateMap();
 	}
 	 
 	function toggleNearby()
 	{
 		nearbySwitch = !nearbySwitch;
 		console.debug("Flag to only show nearby users: " + nearbySwitch);
-		if(nearbySwitch) { map.setZoom(15); }
+		if(nearbySwitch) 
+		{ 
+			map.setCenter(currentLatLong);
+			map.setZoom(15); 
+		}
+		
+		UpdateMap();
 	}
 	
 	function zoomUsers()
 	{
+		followSwitch = false;
+		console.debug("Flag to recenter the map: " + followSwitch);
 		//  Create a new viewpoint bound
 		var bounds = new google.maps.LatLngBounds();
 		//  Go through each marker
@@ -203,6 +213,9 @@
 		}
 		//  Fit these bounds to the map
 		map.fitBounds(bounds);
+		console.debug("Map zoomed to fit markers...");
+		
+		UpdateMap();
 	}
 	
 	</script>
