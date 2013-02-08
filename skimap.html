@@ -123,11 +123,6 @@
 		
 	}
 	
-
-
-
-
-
 	function showPosition(position)
 	{
   	  
@@ -156,11 +151,11 @@
 	  
 	}
 	  
-	  function stopWatching()
-	  {
+	function stopWatching()
+	{
 		navigator.geolocation.clearWatch(watchID);
 		self.clearInterval(handleTimedEvent);
-	  }
+	}
 
 	function showError(error)
 	{
@@ -195,7 +190,7 @@
 		console.debug("Flag to only show nearby users: " + nearbySwitch);
 		if(nearbySwitch) { map.setZoom(15); }
 	}
-	
+	/*
 	function zoomUsers()
 	{
 		//  Create a new viewpoint bound
@@ -208,11 +203,9 @@
 		}
 		//  Fit these bounds to the map
 		map.fitBounds(bounds);
-	}
+	}*/
 	</script>
 </head>
-
-
 
 
 
