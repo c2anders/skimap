@@ -65,7 +65,8 @@
 		user.create
 		({
 			success: function(model) 
-				{console.debug("Created record with username: " + sessionID);},
+				{console.debug("Created record with username: " + sessionID);
+				document.getElementById("User").textContent = "User:  " + sessionID;},
 			error: function(model, response) 
 				{ console.debug("Unable to create user '" + sessionID + "'. Probably because it already exists?"); }
 		});
