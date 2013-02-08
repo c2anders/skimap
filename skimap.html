@@ -199,7 +199,7 @@
 		for (var i = 0; i < markers.length; i++) 
 		{
 			//  And increase the bounds to take this point
-			bounds.extend (markers[i]);
+			bounds.extend (markers[i].position);
 		}
 		//  Fit these bounds to the map
 		map.fitBounds(bounds);
