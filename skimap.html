@@ -75,8 +75,6 @@
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
 		
-		geopoint = new StackMob.GeoPoint(lat, lon);
-		
 		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 	}
 
@@ -232,7 +230,7 @@ p
 
 	<button onclick = "stopWatching()">Stop<br>Tracking</button>
 	<button onclick = "toggleFollow()">Follow Me<br>On/Off</button>
-	<button onclick = "toggleFollow()">-</button>
+	<button onclick = "zoomUsers()">Zoom:<br>Show Users</button>
 	<button onclick = "toggleFollow()">-</button>
 	<button onclick = "toggleFollow()">-</button>
   </div>
