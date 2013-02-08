@@ -38,6 +38,7 @@
 	var handleTimedEvent;
 	var sessionID;
 	var mapOptions;
+	var followSwitch = false;
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -50,7 +51,7 @@
 	function initialize()
 	{
 		//Adjust map html div to fill the page
-		document.getElementById("map_canvas").style.height=(window.innerHeight-80)+'px';
+		document.getElementById("map_canvas").style.height=(window.innerHeight-120)+'px';
 		
 		//Create a random session identifier
 		var temprandom = Math.floor(Math.random()*100000);
@@ -149,7 +150,8 @@
 	  
 	  if (currentPositionMarker)
 		{currentPositionMarker.setPosition(currentLatLong);}
-	  map.setCenter(currentLatLong);
+	  if (followSwitch)
+		{map.setCenter(currentLatLong);}
 
 	  
 	  }
@@ -178,6 +180,11 @@
 		  break;
 		}
 	  }
+	 
+	 function toggleFollow()
+	 {
+		followSwitch = !followSwitch;
+	 }
 	</script>
 </head>
 
@@ -186,15 +193,38 @@
 
 
 <body onload="initialize()">
-
-<div style="height:80px; width:100%">
+<style>
+button
+{
+	float:left;
+	width:25%;
+	height:60px;
+	font-family:"Arial";
+	text-align:center;
+	font-size:14px;
+}
+p
+{
+	font-family:"Arial";
+	text-align:center;
+	line-height:0.1em;
+	font-size:14px;
+	padding:0px;
+}
+</style>
+<div style="height:120px; width:100%">
   <div>
-	<button style="float:left; width: 30%; height: 80px" onclick="StartTracking()">Start Tracking</button>
-	<div style="float:left; width:40%; height: 80px"">
-		<p style="text-align:center" id="Lat">Lat:  </p>
-		<p style="text-align:center" id="Long">Long: </p>
+	<button onclick = "StartTracking()">Start<br>Tracking</button>
+	<div style="float:left; width:50%; height: 60px"">
+		<p id="User">User: </p>
+		<p id="Lat">Lat:  </p>
+		<p id="Long">Long: </p>
 	</div>
-	<button style="float:right; width: 30%; height: 80px"" onclick="stopWatching()">Stop Tracking</button>
+	<button onclick = "stopWatching()">Stop<br>Tracking</button>
+	<button onclick = "toggleFollow()">Follow Me<br>On/Off</button>
+	<button>X</button>
+	<button>X</button>
+	<button>X</button>
   </div>
 </div>
 
