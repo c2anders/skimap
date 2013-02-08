@@ -40,7 +40,6 @@
 	var mapOptions;
 	var followSwitch = true;
 	var nearbySwitch = false;
-	var currentGeopoint;
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -80,27 +79,30 @@
 	}
 
 	function StartTracking()
-	 {
-	  if (navigator.geolocation)
+	{
+		if (navigator.geolocation)
 		{
-		console.debug("Geolocation supported...");
-		watchID = navigator.geolocation.watchPosition(showPosition,showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
-		map.setZoom(18);
+			console.debug("Geolocation supported...");
+			watchID = navigator.geolocation.watchPosition(showPosition,showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
+			map.setZoom(18);
 		}
-	  else{console.debug("Geolocation is not supported by this browser.");}
+		else{console.debug("Geolocation is not supported by this browser.");}
 	  
-	  console.debug("Starting 10 second timed event...");
-	  handleTimedEvent = self.setInterval(function(){clock()},10000);
-	  clock();
-	 }
+		console.debug("Starting 10 second timed event...");
+		handleTimedEvent = self.setInterval(function(){clock()},10000);
+
+		var timecutoff = new Date();
+		timecutoff = timecutoff - 3600000;
+		console.debug("Submitting database query...");
+		smQuery = new StackMob.Collection.Query().gt('lastmoddate', timecutoff);
+
+		clock();
+	}
 
 	
 	function clock()
 	{
-		var timecutoff = new Date();
-		timecutoff = timecutoff - 3600000;
-		console.debug("Submitting database query...");
-		smQuery.gt('lastmoddate', timecutoff);
+
 		if(nearbySwitch)
 			{smQuery.isWithinKm('location', currentGeopoint, 0.5);}
 		results.query(smQuery, {success: ProcessResults, error: function(reporterror){console.debug("Error querying database!");}} );
@@ -142,11 +144,12 @@
 	currentPosition = position;
 	currentLat = position.coords.latitude;
 	currentLong = position.coords.longitude;
-	user.set({ Lat:currentLat, Long: currentLong });
-	if(currentGeopoint)
-		{currentGeopoint.lat = currentLat; currentGeopoint.lon = currentLong;}
-	else
-		{currentGeopoint = new StackMob.GeoPoint(currentLat, currentLong);}
+	user.set({ 
+		Lat:currentLat, 
+		Long: currentLong, 
+		location: new StackMob.GeoPoint(currentLat, currentLong), 
+		Accuracy: currentPosition.coords.accuracy, 
+		Altitude: currentposition.coords.altitude });
 	  
 	user.save();
 	  
@@ -200,7 +203,12 @@
 		nearbySwitch = !nearbySwitch;
 		if(nearbySwitch)
 		{
+			smQuery = new StackMob.Collection.Query().gt('lastmoddate', timecutoff).mustBeNearKm('location', currentGeopoint, 1);
 			map.setZoom(15);
+		}
+		else
+		{
+			smQuery = new StackMob.Collection.Query().gt('lastmoddate', timecutoff);
 		}
 	}
 	</script>
