@@ -149,7 +149,7 @@
 		Long: currentLong, 
 		location: new StackMob.GeoPoint(currentLat, currentLong), 
 		Accuracy: currentPosition.coords.accuracy, 
-		Altitude: currentposition.coords.altitude });
+		Altitude: currentPosition.coords.altitude });
 	  
 	user.save();
 	  
@@ -193,7 +193,8 @@
 	 
 	function toggleFollow()
 	{
-		followSwitch = !followSwitch;
+		followSwitch = !followSwitch
+		console.debug("Flag to recenter the map: " + followSwitch);
 		if(followSwitch && currentLatLong)
 			{map.setCenter(currentLatLong);}
 	}
@@ -201,6 +202,7 @@
 	function toggleNearby()
 	{
 		nearbySwitch = !nearbySwitch;
+		console.debug("Flag to only show nearby users: " + nearbySwitch);
 		if(nearbySwitch)
 		{
 			smQuery = new StackMob.Collection.Query().gt('lastmoddate', timecutoff).mustBeNearKm('location', currentGeopoint, 1);
@@ -243,7 +245,7 @@ p
 		<div style="float:left; height: 50%; width: 25%;"">
 		<p id="User">User: </p>
 	</div>
-	<div style="float:left; height: 50%; width: 25%;"">
+	<div style="float:left; height: 50%; width: 25%;">
 		<p id="Lat">Lat:  </p>
 		<p id="Long">Long: </p>
 	</div>
