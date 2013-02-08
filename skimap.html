@@ -39,6 +39,7 @@
 	var sessionID;
 	var mapOptions;
 	var followSwitch = true;
+	var nearbySwitch = false;
 	var currentGeopoint;
 	
 	//Define classes for user query results
@@ -100,6 +101,8 @@
 		timecutoff = timecutoff - 3600000;
 		console.debug("Submitting database query...");
 		smQuery.gt('lastmoddate', timecutoff);
+		if(nearbySwitch)
+			{smQuery.isWithinKm('location', currentGeopoint, 0.5);}
 		results.query(smQuery, {success: ProcessResults, error: function(reporterror){console.debug("Error querying database!");}} );
 		
 	}	
@@ -167,8 +170,8 @@
 	  }
 
 	function showError(error)
-	  {
-	  switch(error.code) 
+	{
+		switch(error.code) 
 		{
 		case error.PERMISSION_DENIED:
 		  console.debug("User denied the request for Geolocation.");
@@ -183,14 +186,23 @@
 		  console.debug("An unknown error occurred.");
 		  break;
 		}
-	  }
+	}
 	 
-	 function toggleFollow()
-	 {
+	function toggleFollow()
+	{
 		followSwitch = !followSwitch;
 		if(followSwitch && currentLatLong)
 			{map.setCenter(currentLatLong);}
-	 }
+	}
+	 
+	function toggleNearby()
+	{
+		nearbySwitch = !nearbySwitch;
+		if(nearbySwitch)
+		{
+			map.setZoom(15);
+		}
+	}
 	</script>
 </head>
 
@@ -231,7 +243,7 @@ p
 	<button onclick = "stopWatching()">Stop<br>Tracking</button>
 	<button onclick = "toggleFollow()">Follow Me<br>On/Off</button>
 	<button onclick = "zoomUsers()">Zoom:<br>Show Users</button>
-	<button onclick = "toggleFollow()">-</button>
+	<button onclick = "toggleNearby()">Only Show Within 1km<br>On/Off</button>
 	<button onclick = "toggleFollow()">-</button>
   </div>
 </div>
