@@ -38,7 +38,8 @@
 	var handleTimedEvent;
 	var sessionID;
 	var mapOptions;
-	var followSwitch = false;
+	var followSwitch = true;
+	var currentGeopoint;
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -73,6 +74,8 @@
 			zoom: 8,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
+		
+		geopoint = new StackMob.GeoPoint(lat, lon);
 		
 		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 	}
@@ -133,26 +136,31 @@
 
 
 	function showPosition(position)
-	  {
+	{
   	  
-	  currentPosition = position;
-	  currentLat = position.coords.latitude;
-	  currentLong = position.coords.longitude;
-	  user.set({ Lat:currentLat, Long: currentLong });
-	  user.save();
+	currentPosition = position;
+	currentLat = position.coords.latitude;
+	currentLong = position.coords.longitude;
+	user.set({ Lat:currentLat, Long: currentLong });
+	if(geopoint)
+		{geopoint.lat = currentLat; geopoint.lon = currentLong;}
+	else
+		{geopoint = new StackMob.GeoPoint(currentLat, currentLong);}
+	  
+	user.save();
 	  
 	  
-	  currentLatLong = new google.maps.LatLng(currentLat, currentLong);
-	  document.getElementById("Lat").textContent = "Lat:  " + currentLat;
-	  document.getElementById("Long").textContent = "Long: " + currentLong;
+	currentLatLong = new google.maps.LatLng(currentLat, currentLong);
+	document.getElementById("Lat").textContent = "Lat:  " + currentLat;
+	document.getElementById("Long").textContent = "Long: " + currentLong;
 	  
-	  if (currentPositionMarker)
+	if (currentPositionMarker)
 		{currentPositionMarker.setPosition(currentLatLong);}
-	  if (followSwitch)
+	if (followSwitch)
 		{map.setCenter(currentLatLong);}
 
 	  
-	  }
+	}
 	  
 	  function stopWatching()
 	  {
