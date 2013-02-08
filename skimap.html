@@ -113,6 +113,14 @@
 			if(results.models[i].get('username') == sessionID)
 				{currentPositionMarker = markers[i];}
 		}
+		
+		//Move any newly-unused markers off the current map
+		for(var i = results.length; i < markers.length; i++)
+		{
+			markers[i].setMap(null);
+		}
+		//Remove any newly-unused markers
+		markers.splice(results.length, markers.length - results.length);
 	}
 	
 	
