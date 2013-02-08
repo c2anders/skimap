@@ -140,10 +140,10 @@
 	currentLat = position.coords.latitude;
 	currentLong = position.coords.longitude;
 	user.set({ Lat:currentLat, Long: currentLong });
-	if(geopoint)
-		{geopoint.lat = currentLat; geopoint.lon = currentLong;}
+	if(currentGeopoint)
+		{currentGeopoint.lat = currentLat; currentGeopoint.lon = currentLong;}
 	else
-		{geopoint = new StackMob.GeoPoint(currentLat, currentLong);}
+		{currentGeopoint = new StackMob.GeoPoint(currentLat, currentLong);}
 	  
 	user.save();
 	  
