@@ -195,6 +195,20 @@
 		console.debug("Flag to only show nearby users: " + nearbySwitch);
 		if(nearbySwitch) { map.setZoom(15); }
 	}
+	
+	function zoomUsers()
+	{
+		//  Create a new viewpoint bound
+		var bounds = new google.maps.LatLngBounds();
+		//  Go through each marker
+		for (var i = 0, i < markers.length; i++) 
+		{
+			//  And increase the bounds to take this point
+			bounds.extend (markers[i]);
+		}
+		//  Fit these bounds to the map
+		map.fitBounds(bounds);
+	}
 	</script>
 </head>
 
