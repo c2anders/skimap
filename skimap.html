@@ -28,6 +28,7 @@
 	var mapOptions;
 	var followSwitch = true;
 	var nearbySwitch = false;
+	var trackingSwitch = false;
 	var timerangems = 3600000;
 	
 	//Define classes for user query results
@@ -70,6 +71,8 @@
 
 	function StartTracking()
 	{
+		if (!trackingSwitch)
+		{
 		if (navigator.geolocation)
 		{
 			console.debug("Geolocation supported...");
@@ -85,6 +88,9 @@
 		smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems);
 
 		UpdateMap();
+		
+		trackingSwitch = true;
+		}
 	}
 
 	
@@ -166,6 +172,7 @@
 	  
 	function stopWatching()
 	{
+		trackingSwitch = false;
 		navigator.geolocation.clearWatch(watchID);
 		self.clearInterval(handleTimedEvent);
 	}
