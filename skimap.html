@@ -30,6 +30,7 @@
 	var nearbySwitch = false;
 	var trackingSwitch = false;
 	var timerangems = 3600000;
+	var maxZoom = 19;
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -234,6 +235,9 @@
 		//  Fit these bounds to the map
 		map.fitBounds(bounds);
 		console.debug("Map zoomed to fit markers...");
+		
+		if (map.getZoom() > maxZoom)
+			{map.setZoom(maxZoom);}
 		
 		UpdateMap();
 	}
