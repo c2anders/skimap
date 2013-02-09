@@ -95,10 +95,10 @@
 	
 	function UpdateMap()
 	{
+		smQuery = new StackMob.Collection.Query().isNotNull('Lat').isNotNull('Long').isNotNull('location').gt('lastmoddate', new Date() - timerangems);
+		
 		if(nearbySwitch)
-			{smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems).mustBeNearKm('location', new StackMob.GeoPoint(currentLat, currentLong), 1);}
-		else
-			{smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems);}
+			{smQuery.mustBeNearKm('location', new StackMob.GeoPoint(currentLat, currentLong), 1);}
 
 		results.query(smQuery, {success: ProcessResults, error: function(reporterror){console.debug("Error querying database!");}} );
 	}
