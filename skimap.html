@@ -6,6 +6,7 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://static.stackmob.com/js/stackmob-js-0.7.0-bundled-min.js"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+	<script src="mapiconmaker.js" type="text/javascript"></script>
 	<script type="text/javascript">
 	StackMob.init({
 		appName: "ski_map",
@@ -67,6 +68,8 @@
 		}
 		
 		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+		
+		var newIcon = MapIconMaker.createMarkerIcon({width: 64, height: 64, primaryColor: "#00ff00"});
 	}
 
 	function StartTracking()
