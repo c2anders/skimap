@@ -121,7 +121,8 @@
 			markers[i].setMap(null);
 		}
 		//Remove any newly-unused markers
-		markers.splice(results.length, markers.length - results.length);
+		if(markers.length > results.length)
+			{markers.splice(results.length, markers.length - results.length);}
 	}
 	
 	
