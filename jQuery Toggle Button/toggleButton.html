@@ -1,0 +1,170 @@
+<!DOCTYPE html>  
+    <html>  
+        <head>  
+            <title></title>  
+            <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">  
+            <link rel="stylesheet" type="text/css" href="styles.css" />
+            
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	    <script type="text/javascript" src="jquery.toggleButton-min.js"></script>
+            <script type="text/javascript">    
+                $(document).ready(function() {
+                    $('#single').toggleButton({'selectionMode':'single'});
+		    $('#normal').toggleButton();
+		    $('#preselected').toggleButton();
+                    $('#imgholder').toggleButton({'buttonSelector':'.toggleBtn div'});
+                });
+            </script>
+        </head>  
+        <body>  
+	    
+            <h1>Toggle Button Examples:</h1>
+	    
+	    <h2>Normal:</h2>
+	    
+	    <div id="normal">
+		<div class="toggleBtn">
+		    <button name="button1" type="button">
+			<img src="images/clock.png" alt="" />
+			Toggle
+		    </button>            
+		    <input type="checkbox" name="checkbox1" id="checkbox1" value="1" />
+		    <label for="checkbox1">Toggle</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button2" type="button">
+			<img src="images/control_repeat.png" alt="" />
+			Repeat
+		    </button>            
+		    <input type="checkbox" name="checkbox2" id="checkbox2" value="1" />
+		    <label for="checkbox2">Repeat</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button3" type="button">
+			On / Off
+		    </button>            
+		    <input type="checkbox" name="checkbox3" id="checkbox3" value="1" />
+		    <label for="checkbox3">On / Off</label>
+		</div>
+	    </div>
+	    
+	    <h2>Pre-selected option:</h2>
+	    <div id="preselected">
+		<div class="toggleBtn">
+		    <button name="button7" type="button">
+			<img src="images/clock.png" alt="" />
+			Toggle
+		    </button>            
+		    <input type="checkbox" name="checkbox7" id="checkbox7" value="1" />
+		    <label for="checkbox7">Toggle</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button8" type="button">
+			<img src="images/control_repeat.png" alt="" />
+			Repeat
+		    </button>            
+		    <input type="checkbox" name="checkbox8" id="checkbox8" value="1" checked="checked" />
+		    <label for="checkbox8">Repeat</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button9" type="button">
+			On / Off
+		    </button>            
+		    <input type="checkbox" name="checkbox9" id="checkbox9" value="1" />
+		    <label for="checkbox9">On / Off</label>
+		</div>
+	    </div>
+	    
+	    <h2>No Javascript Failover:</h2>
+	    <div id="failover">
+		<div class="toggleBtn">
+		    <button name="button10" type="button">
+			<img src="images/clock.png" alt="" />
+			Toggle
+		    </button>            
+		    <input type="checkbox" name="checkbox10" id="checkbox10" value="1" />
+		    <label for="checkbox10">Toggle</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button11" type="button">
+			<img src="images/control_repeat.png" alt="" />
+			Repeat
+		    </button>            
+		    <input type="checkbox" name="checkbox11" id="checkbox11" value="1" />
+		    <label for="checkbox8">Repeat</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button12" type="button">
+			On / Off
+		    </button>            
+		    <input type="checkbox" name="checkbox12" id="checkbox12" value="1" />
+		    <label for="checkbox12">On / Off</label>
+		</div>
+	    </div>	    
+            
+            <hr />
+            
+	    
+	    <h2>Single selection:</h2>
+	    <div id="single">
+		<div class="toggleBtn">
+		    <button name="button4" type="button">
+			Option 1
+		    </button>            
+		    <input type="radio" name="single" id="checkbox4" value="1" />
+		    <label for="checkbox4">Option 1</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button5" type="button">
+			Option 2
+		    </button>            
+		    <input type="radio" name="single" id="checkbox5" value="2" />
+		    <label for="checkbox5">Option 2</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button6" type="button">
+			Option 3
+		    </button>            
+		    <input type="radio" name="single" id="checkbox6" value="3" />
+		    <label for="checkbox6">Option 3</label>
+		</div>
+	    </div>
+            
+            <h2>Failover:</h2>
+	    <div id="singlefailover">
+		<div class="toggleBtn">
+		    <button name="button7" type="button">
+			Option 1
+		    </button>            
+		    <input type="radio" name="singlefail" id="checkbox14" value="1" />
+		    <label for="checkbox7">Option 1</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button8" type="button">
+			Option 2
+		    </button>            
+		    <input type="radio" name="singlefail" id="checkbox15" value="2" />
+		    <label for="checkbox8">Option 2</label>
+		</div>
+		<div class="toggleBtn">
+		    <button name="button9" type="button">
+			Option 3
+		    </button>            
+		    <input type="radio" name="singlefail" id="checkbox16" value="3" />
+		    <label for="checkbox9">Option 3</label>
+		</div>
+	    </div>
+            
+            <hr />
+
+            <h2>Toggle Button Image:</h2>
+            
+            <div id="imgholder">
+                <div class="toggleBtn">
+                    <div id="buttonImg"></div>        
+		    <input type="checkbox" name="imgdemo" id="checkbox17" value="3" />
+		    <label for="checkbox17">Option 3</label>
+		</div>
+            </div>
+        </body>  
+    </html>  
