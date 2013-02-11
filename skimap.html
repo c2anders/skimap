@@ -157,7 +157,7 @@
 		var url = individual.get('markerURL');
 		if(url)
 		{
-			markers[i].setIcon({url: url, new google.maps.Size(width:40, height:68});
+			markers[i].setIcon({url: url, scaledSize: markerSize});
 		}
 	}
 	
