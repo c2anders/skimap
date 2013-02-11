@@ -34,6 +34,7 @@
 	var buttonBarHeight = 150;
 	var vancouverLatLng = new google.maps.LatLng(49.287,-123.124);
 	var clickEvent;
+	var markerSize = new google.maps.Size(width:40, height:68);
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -156,7 +157,7 @@
 		var url = individual.get('markerURL');
 		if(url)
 		{
-			markers[i].setIcon({url: url});
+			markers[i].setIcon({url: url, new google.maps.Size(width:40, height:68});
 		}
 	}
 	
@@ -174,7 +175,7 @@
 		}
 		if(marker == currentPositionMarker)
 		{
-			currentPositionMarker.setIcon({url: markerURL});
+			currentPositionMarker.setIcon({url: markerURL, scaledSize: markerSize});
 		}
 	}
 	
