@@ -170,7 +170,7 @@
 			user.set({markerURL: markerURL });
 		  	user.save();
 		}
-		if(currentPositionMarker)
+		if(marker == currentPositionMarker)
 		{
 			currentPositionMarker.setIcon({url: markerURL});
 		}
