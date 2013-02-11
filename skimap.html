@@ -33,6 +33,7 @@
 	var maxZoom = 19;
 	var buttonBarHeight = 150;
 	var vancouverLatLng = new google.maps.LatLng(49.287,-123.124);
+	var clickEvent;
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -148,40 +149,43 @@
 		{
 			markers[i].setPosition(placed_LatLng);
 			markers[i].setMap(map);
-		}		
+		}
+		google.maps.event.addListener(markers[i], 'click', function() {change_marker(markers[i])});
+		
 	}
 	
-	function change_marker()
+	function change_marker(marker)
 	{
+		clickEvent = event;
 		var possibleLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		var character = possibleLetters.charAt(Math.floor(Math.random() * possibleLetters.length));
-		markers[0].setIcon({url: "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/red_Marker"+character+".png"})
+		marker.setIcon({url: "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/red_Marker"+character+".png"})
 	}
 	
 	function showPosition(position)
 	{
   	  
-	currentPosition = position;
-	currentLat = position.coords.latitude;
-	currentLong = position.coords.longitude;
-	user.set({ 
-		Lat:currentLat, 
-		Long: currentLong, 
-		location: new StackMob.GeoPoint(currentLat, currentLong), 
-		Accuracy: currentPosition.coords.accuracy, 
-		Altitude: currentPosition.coords.altitude });
-	  
-	user.save();
-	  
-	  
-	currentLatLong = new google.maps.LatLng(currentLat, currentLong);
-	document.getElementById("Lat").textContent = "Lat:  " + currentLat;
-	document.getElementById("Long").textContent = "Long: " + currentLong;
-	  
-	if (currentPositionMarker)
-		{currentPositionMarker.setPosition(currentLatLong);}
-	if (followSwitch)
-		{map.setCenter(currentLatLong);}
+		currentPosition = position;
+		currentLat = position.coords.latitude;
+		currentLong = position.coords.longitude;
+		user.set({ 
+			Lat:currentLat, 
+			Long: currentLong, 
+			location: new StackMob.GeoPoint(currentLat, currentLong), 
+			Accuracy: currentPosition.coords.accuracy, 
+			Altitude: currentPosition.coords.altitude });
+		  
+		user.save();
+		  
+		  
+		currentLatLong = new google.maps.LatLng(currentLat, currentLong);
+		document.getElementById("Lat").textContent = "Lat:  " + currentLat;
+		document.getElementById("Long").textContent = "Long: " + currentLong;
+		  
+		if (currentPositionMarker)
+			{currentPositionMarker.setPosition(currentLatLong);}
+		if (followSwitch)
+			{map.setCenter(currentLatLong);}
 	}
 	  
 	function StopTracking()
