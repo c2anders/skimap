@@ -31,6 +31,7 @@
 	var trackingSwitch = false;
 	var timerangems = 3600000;
 	var maxZoom = 19;
+	var buttonBarHeight = 150;
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -43,7 +44,7 @@
 	function initialize()
 	{
 		//Adjust map html div to fill the page
-		document.getElementById("map_canvas").style.height=("85%");
+		Resize();
 		
 		//Create a random session identifier
 		var temprandom = Math.floor(Math.random()*100000);
@@ -62,7 +63,7 @@
 		});
 
 		mapOptions = {
-			center: new google.maps.LatLng(49,-123),
+			center: new google.maps.LatLng(49.287,-123.124),
 			zoom: 8,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
@@ -245,6 +246,11 @@
 		UpdateMap();
 	}
 	
+	function Resize()
+	{
+		document.getElementById("map_canvas").style.height=((window.innerHeight-buttonBarHeight)+"px");
+	}
+	
 	</script>
 	
 	
@@ -260,32 +266,31 @@
 
 
 
-<body onload="initialize()">
+<body onload="initialize()" onresize="Resize()">
 <style>
 html 
-{ margin: 0; padding: 0; height: 100%; }
+{ margin: 0; padding: 0; height: 100%; width: 100%;}
 body 
-{ height: 100%; margin: 0; padding: 0 }
+{ margin: 0; padding: 0; height: 100%; width: 100%;}
 button
 {
-	//float:left;
 	-moz-box-sizing:border-box; /* Firefox */
 	-webkit-box-sizing:border-box; /* Safari */
 	box-sizing:border-box;
 	width:100%;
-	height:50%;
+	height:100%;
 	font-family:"Verdana";
 	text-align:center;
 	font-size: 16pt;
-	background-color:#f5f5f5; 
-	border:1px solid #707070;
-	padding: 3px 3px 3px 3px;
+	background-color:#f5f5ff; 
+	border:2px solid #68838B;
+	padding: 3px;
 	font-weight:bold;
-	
 	-moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     -khtml-border-radius: 10px;
     border-radius: 10px;
+	margin: 0px;
 }
 p
 {
@@ -294,7 +299,6 @@ p
 	line-height:0em;
 	font-size:12pt;
 	padding:0px;
-	display: none;
 }
 button.clicked
 {
@@ -304,48 +308,55 @@ div.stats
 {
 	display: none;
 }
-div.button_canvas
-{
-	position: relative;
-	float:left;
-	width: 50%;
-	height: 15%;
-	//background-color: #C9E63F;
-}
+
 #map_canvas
 {
-	position: relative;
+	position: absolute;
 	float:left;
 	width: 100%;
-	height: 85%;
-	top:0px;
+	height: 100%;
+	top:150px;
 	left:0px;
-	right:0px;
-	bottom:0px;
-	margin:0 auto;
-	overflow:visible;
-	//background-color: #C9E61F;
+	background-color: #999999;
+}
+div.button_padding
+{
+	-moz-box-sizing:border-box; /* Firefox */
+	-webkit-box-sizing:border-box; /* Safari */
+	box-sizing:border-box;
+	background-color: #B4CDCD;
+	position:relative;
+	float:left;
+	width:50%;
+	height:75px;
+	padding:1px;
 }
 
 </style>
+	<div class="button_padding">
+		<button class="toggle" onclick = "ToggleTracking()">Track Me</button>
+	</div>
 
-<div class="button_canvas">
-	<button class="toggle" onclick = "ToggleTracking()">Track Me</button>
-	<button class="toggle clicked" onclick = "toggleFollow()">Follow Me</button>
+	<div class="button_padding">
+		<button class="toggle clicked" onclick = "toggleFollow()">Follow Me</button>
+	</div>
+	
+	<div class="button_padding">
+		<button onclick = "zoomUsers()">Zoom to Fit</button>
+	</div>
+
+	<div class="button_padding">
+		<button class="toggle" onclick = "toggleNearby()">Only Show Within 1km</button>
+	</div>
+
+	<div id="map_canvas"></div>
+	
+	<div class="stats">
+		<p id="User">User: </p>
+		<p id="Lat">Lat:  </p>
+		<p id="Long">Long: </p>	
+	</div>
 </div>
-<div class="button_canvas">
-	<button onclick = "zoomUsers()">Zoom to Fit</button>
-	<button class="toggle" onclick = "toggleNearby()">Only Show Within 1km</button>
-</div>
-
-<div id="map_canvas"></div>
-
-<div class="stats">
-	<p id="User">User: </p>
-	<p id="Lat">Lat:  </p>
-	<p id="Long">Long: </p>	
-</div>
-
 </body>
 </html>
 
