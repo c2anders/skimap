@@ -32,6 +32,7 @@
 	var timerangems = 3600000;
 	var maxZoom = 19;
 	var buttonBarHeight = 150;
+	var vancouverLatLng = new google.maps.LatLng(49.287,-123.124),
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -63,7 +64,7 @@
 		});
 
 		mapOptions = {
-			center: new google.maps.LatLng(49.287,-123.124),
+			center: vancouverLatLng,
 			zoom: 8,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
@@ -324,7 +325,7 @@ div.button_padding
 	-moz-box-sizing:border-box; /* Firefox */
 	-webkit-box-sizing:border-box; /* Safari */
 	box-sizing:border-box;
-	background-color: #B4CDCD;
+	background-color: #f5f5ff;
 	position:relative;
 	float:left;
 	width:50%;
