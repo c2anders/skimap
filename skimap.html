@@ -35,6 +35,8 @@
 	var vancouverLatLng = new google.maps.LatLng(49.287,-123.124);
 	var clickEvent;
 	var markerSize = new google.maps.Size(40, 68);
+	var siteURL = "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/"
+	var defaultMarkerURL = siteURL + "blue_MarkerA.png"
 	
 	//Define classes for user query results
 	var Result = StackMob.Model.extend({ schemaName: 'user' });
@@ -110,11 +112,17 @@
 	
 	function UpdateMap()
 	{
+		//Write current position data to StackMob database
+		user.save();
+		
+		//Generate StackMob database query
 		smQuery = new StackMob.Collection.Query().isNotNull('Lat').isNotNull('Long').isNotNull('location').gt('lastmoddate', new Date() - timerangems);
 		
+		//Add query condition if necessary to filter for nearby users
 		if(nearbySwitch)
 			{smQuery.mustBeNearKm('location', new StackMob.GeoPoint(currentLat, currentLong), 1);}
 
+		//Query database
 		results.query(smQuery, {success: ProcessResults, error: function(reporterror){console.debug("Error querying database!");}} );
 	}
 	
@@ -165,10 +173,14 @@
 		}
 
 		var individualURL = individual.get('markerURL');
-		/*if(individualURL)
+		if(individualURL)
 		{
 			markers[i].setIcon({url: individualURL, scaledSize: markerSize});
-		}*/
+		}
+		else
+		{
+			markers[i].setIcon({url: defaultMarkerURL, scaledSize: markerSize});
+		}
 	}
 	
 	function change_marker(marker)
@@ -181,13 +193,16 @@
 			var character = possibleLetters.charAt(Math.floor(Math.random() * possibleLetters.length));
 			var colours = new Array("blue", "brown", "darkgreen", "green", "orange", "paleblue", "pink", "purple", "red", "yellow");
 			newcolour = colours[Math.floor(Math.random() * colours.length)];
-			var markerImageURL = "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/" + newcolour + "_Marker"+character+".png"
+			var markerImageURL = siteURL + newcolour + "_Marker"+character+".png"
 			if(user)
 			{
 				user.set({markerURL: markerImageURL});
 				user.save();
 			}
-			//currentPositionMarker.setIcon({url: markerImageURL, scaledSize: markerSize})
+		var individualURL = user.get('markerURL');
+		if(individualURL)
+		{
+			currentPositionMarker.setIcon({url: markerImageURL, scaledSize: markerSize})
 			
 		}
 	}
@@ -198,15 +213,14 @@
 		currentPosition = position;
 		currentLat = position.coords.latitude;
 		currentLong = position.coords.longitude;
+		
+		//Write updated position to local user object, but do not write to database until timed event
 		user.set({ 
 			Lat:currentLat, 
 			Long: currentLong, 
 			location: new StackMob.GeoPoint(currentLat, currentLong), 
 			Accuracy: currentPosition.coords.accuracy, 
-			Altitude: currentPosition.coords.altitude });
-		  
-		user.save();
-		  
+			Altitude: currentPosition.coords.altitude });		  
 		  
 		currentLatLong = new google.maps.LatLng(currentLat, currentLong);
 		document.getElementById("Lat").textContent = "Lat:  " + currentLat;
