@@ -199,14 +199,15 @@
 				user.set({markerURL: markerImageURL});
 				user.save();
 			}
-		var individualURL = user.get('markerURL');
-		if(individualURL)
-		{
-			currentPositionMarker.setIcon({url: markerImageURL, scaledSize: markerSize});
-		}
-		else
-		{
-			currentPositionMarker.setIcon({url: defaultMarkerURL, scaledSize: markerSize});		
+			var individualURL = user.get('markerURL');
+			if(individualURL)
+			{
+				currentPositionMarker.setIcon({url: markerImageURL, scaledSize: markerSize});
+			}
+			else
+			{
+				currentPositionMarker.setIcon({url: defaultMarkerURL, scaledSize: markerSize});		
+			}
 		}
 	}
 	
