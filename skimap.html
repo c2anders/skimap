@@ -129,7 +129,6 @@
 			if(results.models[i].get('username') == sessionID)
 			{
 				currentPositionMarker = markers[i];
-				google.maps.event.addListener(currentPositionMarker, 'click', function() {change_marker(markers[i])});
 			}
 		}
 		
@@ -148,7 +147,10 @@
 	{
 		var placed_LatLng = new google.maps.LatLng(individual.get('Lat'), individual.get('Long'));
 		if(!markers[i]) 
-			{markers[i] = new google.maps.Marker({position: placed_LatLng, map: map});}
+		{
+			markers[i] = new google.maps.Marker({position: placed_LatLng, map: map});
+			google.maps.event.addListener(markers[i], 'click', function() {change_marker(markers[i])});
+		}
 		else
 		{
 			markers[i].setPosition(placed_LatLng);
