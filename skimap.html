@@ -193,7 +193,7 @@
 			var character = possibleLetters.charAt(Math.floor(Math.random() * possibleLetters.length));
 			var colours = new Array("blue", "brown", "darkgreen", "green", "orange", "paleblue", "pink", "purple", "red", "yellow");
 			newcolour = colours[Math.floor(Math.random() * colours.length)];
-			var markerImageURL = siteURL + newcolour + "_Marker"+character+".png"
+			var markerImageURL = siteURL + newcolour + "_Marker"+character+".png";
 			if(user)
 			{
 				user.set({markerURL: markerImageURL});
