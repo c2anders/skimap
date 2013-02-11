@@ -156,7 +156,7 @@
 		var url = individual.get('markerURL');
 		if(url)
 		{
-			markers[i].setIcon({url: "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/red_Marker"+character+".png"});
+			markers[i].setIcon({url: url});
 		}
 	}
 	
@@ -172,7 +172,7 @@
 		}
 		if(currentPositionMarker)
 		{
-			currentPositionMarker.setIcon({url: "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/red_Marker"+character+".png"});
+			currentPositionMarker.setIcon({url: markerURL});
 		}
 	}
 	
