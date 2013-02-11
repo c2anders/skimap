@@ -126,10 +126,6 @@
 		for(var i=0;i<results.length;i++)
 		{
 			place_marker(i, results.models[i]);
-			if(results.models[i].get('username') == sessionID)
-			{
-				currentPositionMarker = markers[i];
-			}
 		}
 		
 		//Move any newly-unused markers off the current map
@@ -146,9 +142,10 @@
 	function place_marker(i, individual)
 	{
 		var placed_LatLng = new google.maps.LatLng(individual.get('Lat'), individual.get('Long'));
+
 		if(!markers[i]) 
 		{
-			markers[i] = new google.maps.Marker({position: placed_LatLng, map: map});
+			markers[i] = new google.maps.Marker({position: placed_LatLng, map: map, zIndex: 0});
 			google.maps.event.addListener(markers[i], 'click', function() {change_marker(markers[i])});
 		}
 		else
@@ -157,6 +154,16 @@
 			markers[i].setMap(map);
 		}
 		
+		if(individual.get('username') == sessionID)
+		{
+			currentPositionMarker = markers[i];
+			markers[i].setOptions({zIndex:1});
+		}
+		else
+		{
+			markers[i].setOptions({zIndex:0});
+		}
+
 		var individualURL = individual.get('markerURL');
 		/*if(individualURL)
 		{
@@ -181,6 +188,7 @@
 				user.save();
 			}
 			//currentPositionMarker.setIcon({url: markerImageURL, scaledSize: markerSize})
+			
 		}
 	}
 	
