@@ -155,10 +155,10 @@
 			markers[i].setMap(map);
 		}
 		
-		if(individual.isNotNull('markerURL'))
+		var individualURL = individual.get('markerURL');
+		if(individualURL)
 		{
-			var url = individual.get('markerURL');
-			markers[i].setIcon({url: url, scaledSize: markerSize});
+			markers[i].setIcon({url: individualURL, scaledSize: markerSize});
 		}
 	}
 	
