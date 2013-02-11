@@ -151,6 +151,13 @@
 		}		
 	}
 	
+	function change_marker()
+	{
+		var possibleLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		var character = possibleLetters.charAt(Math.floor(Math.random() * possibleLetters.length));
+		markers[0].setIcon({url: "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/red_Marker"+character+".png"})
+	}
+	
 	function showPosition(position)
 	{
   	  
