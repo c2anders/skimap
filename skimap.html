@@ -163,19 +163,19 @@
 	
 	function change_marker(marker)
 	{
-		var possibleLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		var character = possibleLetters.charAt(Math.floor(Math.random() * possibleLetters.length));
-		var colours = new Array("blue", "brown", "darkgreen", "green", "orange", "paleblue", "pink", "purple", "red", "yellow");
-		newcolour = colours[Math.floor(Math.random() * colours.length)];
-		var markerURL = "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/" + newcolour + "_Marker"+character+".png"
-		if(user)
-		{
-			user.set({markerURL: markerURL });
-		  	user.save();
-		}
 		if(marker == currentPositionMarker)
 		{
-			currentPositionMarker.setIcon({url: markerURL, scaledSize: markerSize});
+			var possibleLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			var character = possibleLetters.charAt(Math.floor(Math.random() * possibleLetters.length));
+			var colours = new Array("blue", "brown", "darkgreen", "green", "orange", "paleblue", "pink", "purple", "red", "yellow");
+			newcolour = colours[Math.floor(Math.random() * colours.length)];
+			var markerImageURL = "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/" + newcolour + "_Marker"+character+".png"
+			if(user)
+			{
+				user.set({markerURL: markerImageURL});
+				user.save();
+			}
+			currentPositionMarker.setIcon({url: markerImageURL, scaledSize: markerSize});
 		}
 	}
 	
