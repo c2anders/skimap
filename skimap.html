@@ -156,16 +156,18 @@
 		}
 		
 		var individualURL = individual.get('markerURL');
-		if(individualURL)
+		/*if(individualURL)
 		{
 			markers[i].setIcon({url: individualURL, scaledSize: markerSize});
-		}
+		}*/
 	}
 	
 	function change_marker(marker)
 	{
+		console.debug("Marker click handler called...");
 		if(marker == currentPositionMarker)
 		{
+			console.debug("Clicked marker is currentPositionMarker");
 			var possibleLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			var character = possibleLetters.charAt(Math.floor(Math.random() * possibleLetters.length));
 			var colours = new Array("blue", "brown", "darkgreen", "green", "orange", "paleblue", "pink", "purple", "red", "yellow");
@@ -176,7 +178,7 @@
 				user.set({markerURL: markerImageURL});
 				user.save();
 			}
-			currentPositionMarker.setIcon({url: markerImageURL, scaledSize: markerSize})
+			//currentPositionMarker.setIcon({url: markerImageURL, scaledSize: markerSize})
 		}
 	}
 	
