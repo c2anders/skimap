@@ -126,7 +126,10 @@
 		{
 			place_marker(i, results.models[i]);
 			if(results.models[i].get('username') == sessionID)
-				{currentPositionMarker = markers[i];}
+			{
+				currentPositionMarker = markers[i];
+				google.maps.event.addListener(currentPositionMarker, 'click', function() {change_marker(markers[i])});
+			}
 		}
 		
 		//Move any newly-unused markers off the current map
@@ -150,16 +153,27 @@
 			markers[i].setPosition(placed_LatLng);
 			markers[i].setMap(map);
 		}
-		google.maps.event.addListener(markers[i], 'click', function() {change_marker(markers[i])});
-		
+		var url = individual.get('markerURL');
+		if(url)
+		{
+			markers[i].setIcon({url: "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/red_Marker"+character+".png"});
+		}
 	}
 	
 	function change_marker(marker)
 	{
-		clickEvent = event;
 		var possibleLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		var character = possibleLetters.charAt(Math.floor(Math.random() * possibleLetters.length));
-		marker.setIcon({url: "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/red_Marker"+character+".png"})
+		var markerURL = "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/red_Marker"+character+".png"
+		if(user)
+		{
+			user.set({markerURL: markerURL });
+		  	user.save();
+		}
+		if(currentPositionMarker)
+		{
+			currentPositionMarker.setIcon({url: "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/markers/red_Marker"+character+".png"});
+		}
 	}
 	
 	function showPosition(position)
