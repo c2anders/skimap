@@ -173,10 +173,25 @@
 		}
 
 		var individualURL = individual.get('markerURL');
+		var markerIcon = markers[i].getIcon();
+	
+		//Use marker url from database if it exists
 		if(individualURL)
 		{
-			markers[i].setIcon({url: individualURL, scaledSize: markerSize});
+			//Assign icon url from database if none exists in marker
+			if(!markerIcon)
+			{
+				markers[i].setIcon({url: individualURL, scaledSize: markerSize});
+			}
+			//Update icon url if marker does not match database
+			else if(markerIcon.url != individualURL)
+			{
+				markers[i].setIcon({url: individualURL, scaledSize: markerSize});
+			}
+			//If marker icon url matches that from database no update is necessary			
 		}
+		
+		//When there is no icon url in the database assign the default url
 		else
 		{
 			markers[i].setIcon({url: defaultMarkerURL, scaledSize: markerSize});
