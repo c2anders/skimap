@@ -154,9 +154,10 @@
 			markers[i].setPosition(placed_LatLng);
 			markers[i].setMap(map);
 		}
-		var url = individual.get('markerURL');
-		if(url)
+		
+		if(individual.isNotNull('markerURL'))
 		{
+			var url = individual.get('markerURL');
 			markers[i].setIcon({url: url, scaledSize: markerSize});
 		}
 	}
