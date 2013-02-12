@@ -9,7 +9,7 @@
 	<script type="text/javascript">
 	
 	//Production switch controls whether deploying to production or development
-	var production = true;
+	var production = false;
 	var StackMobKey;
 	var StackMobAPI;
 	var siteURL;
@@ -24,13 +24,13 @@
 	{
 		StackMobKey = "afd9bc44-1f38-4bb4-ae63-72b39d0abd21";
 		StackMobAPI = 0;
-		siteURL  = "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/Markers/";
+		siteURL = "http://dev.ski_map.christophandersongmailcom.stackmobapp.com/Markers/";
 	}
 	StackMob.init({
 		appName: "ski_map",
 		clientSubdomain: "christophandersongmailcom",
 		publicKey: StackMobKey,
-		apiVersion: 1
+		apiVersion: StackMobAPI
 	});
 	
 	var production = true;
@@ -52,7 +52,7 @@
 	var trackingSwitch = false;
 	var timerangems = 3600000;
 	var maxZoom = 19;
-	var buttonBarHeight = 150;
+	var buttonBarHeight = 100;
 	var vancouverLatLng = new google.maps.LatLng(49.287,-123.124);
 	var clickEvent;
 	var markerSize = new google.maps.Size(40, 68);
@@ -94,6 +94,8 @@
 		}
 		
 		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+		
+		StartTracking();
 	}
 
 	function ToggleTracking()
@@ -410,7 +412,7 @@ div.stats
 	float:left;
 	width: 100%;
 	height: 100%;
-	top:150px;
+	top:100px;
 	left:0px;
 	background-color: #999999;
 }
@@ -422,18 +424,22 @@ div.button_padding
 	background-color: #f5f5ff;
 	position:relative;
 	float:left;
-	width:50%;
-	height:75px;
+	width:33.3%;
+	height:100px;
 	padding:1px;
+}
+div.hidden
+{
+	display: none;
 }
 
 </style>
-	<div class="button_padding">
+	<div class="button_padding hidden">
 		<button class="toggle" onclick = "ToggleTracking()">Track Me</button>
 	</div>
 
 	<div class="button_padding">
-		<button class="toggle clicked" onclick = "toggleFollow()">Follow Me</button>
+		<button class="toggle clicked" onclick = "toggleFollow()">Map Follows Me</button>
 	</div>
 	
 	<div class="button_padding">
