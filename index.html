@@ -9,7 +9,7 @@
 	<script type="text/javascript">
 	
 	//Production switch controls whether deploying to production or development
-	var production = true;
+	var production = false;
 	var StackMobKey;
 	var StackMobAPI;
 	var siteURL;
@@ -112,7 +112,7 @@
 		if (navigator.geolocation)
 		{
 			console.debug("Geolocation supported...");
-			watchID = navigator.geolocation.watchPosition(showPosition,showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
+			watchID = navigator.geolocation.watchPosition(showPosition, showError, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
 			map.setZoom(17);
 		}
 		else{console.debug("Geolocation is not supported by this browser.");}
@@ -120,10 +120,7 @@
 		console.debug("Starting 10 second timed event...");
 		handleTimedEvent = self.setInterval(function(){TimedEvent()},10000);
 
-		console.debug("Submitting database query...");
-		smQuery = new StackMob.Collection.Query().gt('lastmoddate', new Date() - timerangems);
-
-		UpdateMap();
+		//UpdateMap();
 	}
 
 	
